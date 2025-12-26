@@ -1,0 +1,10 @@
+Django>=4.2
+psycopg2-binary
+requests
+beautifulsoup4
+celery[redis]
+redis
+python-dotenv
+gunicorn
+whitenoise
+django-environ
