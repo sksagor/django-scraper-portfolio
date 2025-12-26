@@ -1,0 +1,79 @@
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'portfolio:index' %}">Home</a></li>
+                <li class="breadcrumb-item active">Project Details</li>
+            </ol>
+        </nav>
+
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h2 class="h5 mb-0">{{ item.title }}</h2>
+                {% if item.github_url %}
+                <a href="{{ item.github_url }}" target="_blank" class="btn btn-sm btn-light">View on GitHub</a>
+                {% endif %}
+            </div>
+            
+            <div class="card-body">
+                <h5 class="text-muted">Description</h5>
+                <p class="lead">{{ item.short_description }}</p>
+                
+                <hr>
+
+                <h5 class="text-muted">Scraped Metadata</h5>
+                <div class="row mt-3">
+                    {% if item.extra_data %}
+                        <div class="col-6 col-md-3 mb-3">
+                            <div class="p-3 border rounded text-center">
+                                <strong>⭐ Stars</strong><br>
+                                {{ item.extra_data.stars|default:"0" }}
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3 mb-3">
+                            <div class="p-3 border rounded text-center">
+                                <strong>🍴 Forks</strong><br>
+                                {{ item.extra_data.forks|default:"0" }}
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3 mb-3">
+                            <div class="p-3 border rounded text-center">
+                                <strong>💻 Language</strong><br>
+                                {{ item.extra_data.language|default:"N/A" }}
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3 mb-3">
+                            <div class="p-3 border rounded text-center">
+                                <strong>⚖️ License</strong><br>
+                                {{ item.extra_data.license|default:"None" }}
+                            </div>
+                        </div>
+                    {% else %}
+                        <p class="text-warning">No metadata available for this item.</p>
+                    {% endif %}
+                </div>
+
+                {% if item.long_description %}
+                <div class="mt-4">
+                    <h5 class="text-muted">Full Details</h5>
+                    <div class="p-3 bg-light border rounded">
+                        {{ item.long_description|linebreaks }}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            
+            <div class="card-footer text-muted small">
+                Last updated: {{ item.updated_at|date:"F d, Y H:i" }}
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <a href="{% url 'portfolio:index' %}" class="btn btn-secondary">Back to Portfolio</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

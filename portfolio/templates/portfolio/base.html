@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sam | Portfolio Scraper</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        /* Smooth subtle gradient background */
+        .bg-mesh {
+            background-color: #f8fafc;
+            background-image: radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.05) 0px, transparent 50%),
+                              radial-gradient(at 100% 0%, rgba(147, 51, 234, 0.05) 0px, transparent 50%);
+        }
+    </style>
+</head>
+<body class="bg-mesh min-h-screen text-gray-900">
+
+    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200/50">
+        <div class="max-w-6xl mx-auto px-6 h-20 flex justify-between items-center">
+            
+            <a href="{% url 'portfolio:index' %}" class="group flex items-center gap-2">
+                <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-200 group-hover:rotate-12 transition-transform duration-300">
+                    <span class="text-white font-bold text-xl">S</span>
+                </div>
+                <span class="font-bold text-xl tracking-tight text-gray-900">Sam<span class="text-blue-600">Portfolio</span></span>
+            </a>
+
+            <div class="hidden md:block">
+                {% block nav %}
+                <nav class="flex items-center gap-8">
+                    <a href="{% url 'portfolio:index' %}" class="text-sm font-semibold text-gray-500 hover:text-blue-600 transition-colors">Portfolio</a>
+                    <a href="{% url 'portfolio:new_scrape' %}" class="px-5 py-2.5 bg-gray-900 text-white text-sm font-semibold rounded-full hover:bg-gray-800 shadow-md hover:shadow-lg transition-all duration-300">
+                        Scrape Project
+                    </a>
+                </nav>
+                {% endblock nav %}
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto px-6 py-10">
+        <div class="animate-in fade-in slide-in-from-bottom-4 duration-700">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <footer class="py-10 text-center text-gray-400 text-sm">
+        &copy; 2025 Sam Portfolio • Real-time Django Scraper
+    </footer>
+
+</body>
+</html>

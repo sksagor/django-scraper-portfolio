@@ -1,0 +1,55 @@
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto mt-12 p-8 bg-white rounded-2xl shadow-sm border border-gray-100">
+    <h2 class="text-2xl font-bold text-gray-900 mb-6">Scrape Task Status</h2>
+
+    <div class="space-y-4">
+        <div class="flex justify-between items-center p-4 bg-gray-50 rounded-xl">
+            <span class="text-gray-600 font-medium">Task ID</span>
+            <span class="font-mono text-blue-600">#{{ task.id }}</span>
+        </div>
+
+        <div class="flex justify-between items-center p-4 bg-gray-50 rounded-xl">
+            <span class="text-gray-600 font-medium">Status</span>
+            <span class="px-3 py-1 rounded-full text-xs font-bold uppercase 
+                {% if task.status == 'SUCCESS' %} bg-green-100 text-green-700 
+                {% elif task.status == 'FAILED' %} bg-red-100 text-red-700 
+                {% else %} bg-blue-100 text-blue-700 animate-pulse {% endif %}">
+                {{ task.status }}
+            </span>
+        </div>
+
+        <div class="p-4 bg-gray-50 rounded-xl">
+            <span class="text-gray-600 font-medium block mb-2">Target URL</span>
+            <code class="text-xs text-gray-500 break-all">{{ task.url }}</code>
+        </div>
+    </div>
+
+    {% if task.status == 'SUCCESS' %}
+        <div class="mt-8">
+            <a href="{% url 'portfolio:index' %}" class="block text-center bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl transition-all">
+                View in Portfolio
+            </a>
+        </div>
+    {% elif task.status == 'FAILED' %}
+        <div class="mt-8 p-4 bg-red-50 border border-red-100 rounded-xl text-red-600 text-sm">
+            <strong>Error:</strong> {{ task.error }}
+        </div>
+        <a href="{% url 'portfolio:new_scrape' %}" class="block text-center mt-4 text-gray-500 hover:text-gray-700 text-sm">
+            Try Again
+        </a>
+    {% else %}
+        <div class="mt-8 text-center text-gray-400 text-sm">
+            <p>The worker is processing your request...</p>
+            <p class="mt-2">This page will refresh automatically.</p>
+        </div>
+        <script>
+            // Refresh the page every 3 seconds until status is not PENDING or RUNNING
+            setTimeout(function(){
+                window.location.reload();
+            }, 3000);
+        </script>
+    {% endif %}
+</div>
+{% endblock %}
